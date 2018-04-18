@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生</title>
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <script src="//cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{% static 'js/student.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/student.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="student-ui col-md-offset-3 col-md-5">
+            <div class="welcome">欢迎!{{ student.name }}</div>
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#student">学生信息</a></li>
+                <li><a href="#select_lession" >选课</a></li>
+                <li><a href="#grade">已选课程/成绩</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="student">
+                    <p>学号:{{ student.xuehao }}</p>
+                    <p>学生姓名:{{ student.name }}</p>
+                    <p>性别: {{ student.sex  }}</p>
+                    <p>专业: {{ student.subject }}</p>
+                    <p>所在地: {{ student.native_place}}</p>
+                </div>
+                <div class="tab-pane fade " id="grade">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>老师</th>
+                                <th>课程名称</th>
+                                <th>成绩</th>
+                                <th>学分</th>
+                                <th>学时</th>
+                                <th>退选</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for score in score %}
+                                <tr>
+                                    <td>{{ score.lession.lession_teacher}}</td>
+                                    <td>{{score.lession}}</td>
+                                    <td>{{ score.score}}</td>
+                                    <td>{{score.lession.lession_credit}}</td>
+                                    <td>{{score.lession.lession_time}}</td>
+                                    <form>
+                                        <td>
+                                            <input type="hidden" name="student" value="{{ score.student }}">
+                                            <input type="hidden" name="lession" value="{{ score.lession }}">
+                                            <button id="remove_lession" type="submit" class="btn btn-danger">退选课程</button>
+                                        </td>
+                                    </form>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="select_lession">
+                    <div class="scroll">
+                        <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>课程名称</th>
+                            <th>老师</th>
+                            <th>学时</th>
+                            <th>学分</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <form id="select_form" method="post">
+                            {% for lession in all_lession %}
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="select" id="select" value="{{ lession.lession_name }}">
+                                        <input class="student_value" type="hidden" value="{{ student.name }}">
+                                    </label>
+                                </td>
+                                <td>{{ lession.lession_name }}</td>
+                                <td>{{ lession.lession_teacher }}</td>
+                                <td>{{ lession.lession_time }}</td>
+                                <td>{{ lession.lession_credit }}</td>
+                            </tr>
+                            {% endfor %}
+                        </form>
+                        </tbody>
+                        </table>
+                    </div>
+                    <button id="add" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#add_lession">添加</button>
+                </div>
+            </div>
+            <div class="modal fade" id="add_lession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4>您确定添加以下课程:</h4>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button id="save" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+      $(function () {
+        $('#myTab a:first').tab('show');//初始化显示哪个tab
+        $('#myTab a').click(function (e) {
+          e.preventDefault();//阻止a链接的跳转行为
+          $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+      })
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+
+.welcome{
+    height:35px;
+    width:500px;
+    position: relative;
+    left: 382px;
+}
+
+.teacher-ui {
+    height:400px;
+    width:500px;
+    padding-top: 14px;
+    margin-top: 50px;
+    border-radius: .28571429rem;
+    border: 1px solid rgba(34,36,38,.15);
+}
+
+#teacher{
+    padding-top:100px;
+}
+#teacher p{
+    text-align: center;
+    font-family: "Microsoft YaHei UI";
+    font-weight: 400;
+}
+.teacher-ui ul li:last-child {
+    float: right;
+}
+
+/* 隐藏滚动条*/
+::-webkit-scrollbar {display:none}
+div.scroll{
+    margin-bottom: 19px;
+    overflow-y: auto;
+    height:250px;
+}
